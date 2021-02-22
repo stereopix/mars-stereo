@@ -39,6 +39,9 @@ async def forward(request, url):
       body = await res.read()
     )
 
+async def http_api_curiosity(request):
+  return await forward(request, 'https://mars.nasa.gov/api/v1/raw_image_items/?'+request.query_string)
+
 @web.middleware
 async def error_middleware(request, handler):
     try:
@@ -50,6 +53,7 @@ async def start_server(host, port):
     app = web.Application()
     app.add_routes([
       web.get('/', http_root_handler),
+      web.get('/api/curiosity.json', http_api_curiosity),
       web.static('/', 'resources'),
     ])
     app.middlewares.append(error_middleware)
