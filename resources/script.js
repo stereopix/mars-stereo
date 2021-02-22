@@ -22,15 +22,15 @@ function set_sols_limits() {
 
 	sol = document.getElementById("opportunity_sol");
 	sol.max = opportunity_sol;
-	sol.value = opportunity_sol;
+	if (!sol.value) sol.value = opportunity_sol;
 
 	sol = document.getElementById("curiosity_sol");
 	sol.max = curiosity_sol;
-	sol.value = curiosity_sol;
+	if (!sol.value) sol.value = curiosity_sol;
 
 	sol = document.getElementById("perseverance_sol");
 	sol.max = perseverance_sol;
-	sol.value = perseverance_sol;
+	if (!sol.value) sol.value = perseverance_sol;
 }
 
 window.addEventListener("DOMContentLoaded", function(event) {
