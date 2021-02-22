@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="icon" href="favicon.webp">
+		<title>MARS stereo</title>
+		<script type="text/javascript" src="script.js" defer></script>
+		<style>
+			body {
+				text-align: center;
+				color: #222;
+				background: #eee;
+			}
+			h1, a { color: #c60; }
+			.tabs {
+				display: flex;
+				flex-wrap: wrap;
+			}
+			.tabs>label {
+				order: 1;
+				display: block;
+				padding: 1rem 2rem;
+				margin: 5px 0;
+				margin-right: 0.2rem;
+				cursor: pointer;
+				color: #630;
+				background: #fff;
+				border-radius: 10px;
+				font-weight: bold;
+				transition: color ease 0.2s;
+			}
+			.tabs .tab {
+				order: 99;
+				border-radius: 10px;
+				flex-grow: 1;
+				width: 100%;
+				display: none;
+				padding: 1em;
+				background: #fff;
+			}
+			.tabs>input[type="radio"] {
+				display: none;
+			}
+			.tabs>input[type="radio"]:checked + label {
+				color: #c60;
+			}
+			.tabs>input[type="radio"]:checked + label + .tab {
+				display: block;
+			}
+                </style>
+	</head>
+	<body>
+		<h1>MARS stereo</h1>
+		<div class="tabs">
+			<input type="radio" name="tabs" id="perseverance_tab">
+			<label for="perseverance_tab">Perseverance</label>
+			<div class="tab">
+				<form id="perseverance_form">
+					<p><label>Mission sol: <input id="perseverance_sol" type="number" min="1" max="1" /></label></p>
+					<p>
+						<label><input type="checkbox" id="perseverance_cam_mast" checked />Mastcam-Z</label>
+						<label><input type="checkbox" id="perseverance_cam_nav" checked />Navcam</label>
+						<label><input type="checkbox" id="perseverance_cam_fhaz" checked />Front Hazcam</label>
+						<label><input type="checkbox" id="perseverance_cam_rhaz" checked />Rear Hazcam</label>
+					</p>
+					<p><input id="perseverance_btn" type="submit" disabled /></p>
+				</form>
+			</div>
+
+			<input type="radio" name="tabs" id="curiosity_tab">
+			<label for="curiosity_tab">Curiosity</label>
+			<div class="tab">
+				<form id="curiosity_form">
+					<p><label>Mission sol: <input id="curiosity_sol" type="number" min="1" max="1" /></label></p>
+					<p>
+						<label><input type="checkbox" id="curiosity_cam_nav" checked />Navcam</label>
+						<label><input type="checkbox" id="curiosity_cam_fhaz" checked />Front Hazcam</label>
+						<label><input type="checkbox" id="curiosity_cam_rhaz" checked />Rear Hazcam</label>
+					</p>
+					<p><input id="curiosity_btn" type="submit" disabled /></p>
+				</form>
+			</div>
+
+			<input type="radio" name="tabs" id="opportunity_tab">
+			<label for="opportunity_tab">Oppotunity</label>
+			<div class="tab">
+				<form id="opportunity_form">
+					<p><label>Mission sol: <input id="opportunity_sol" type="number" min="1" max="1" /></label></p>
+					<p>
+						<label><input type="checkbox" id="opportunity_cam_pan" checked />Pancam</label>
+						<label><input type="checkbox" id="opportunity_cam_nav" checked />Navcam</label>
+						<label><input type="checkbox" id="opportunity_cam_fhaz" checked />Front Hazcam</label>
+						<label><input type="checkbox" id="opportunity_cam_rhaz" checked />Rear Hazcam</label>
+					</p>
+					<p><input id="opportunity_btn" type="submit" disabled /></p>
+				</form>
+			</div>
+
+			<input type="radio" name="tabs" id="about_tab" checked>
+			<label for="about_tab">?</label>
+			<div class="tab" style="text-align:left">
+				<p>Photos and list of photos are downloaded from <a href="https://mars.nasa.gov/">https://mars.nasa.gov/</a> and matched by script.</p>
+				<p>If the format or address of the source site changes, this page will be broken.</p>
+			</div>
+		</div>
+	</body>
+</html>
