@@ -12,6 +12,7 @@
 				background: #eee;
 			}
 			h1, a { color: #c60; }
+			h2 { white-space: pre-wrap; }
 			.tabs {
 				display: flex;
 				flex-wrap: wrap;
@@ -47,6 +48,13 @@
 			.tabs>input[type="radio"]:checked + label + .tab {
 				display: block;
 			}
+			#canvasbox {
+				margin: 20px 0;
+			}
+			#thumbs img {
+				margin: 5px;
+				border: 2px solid #000;
+			}
                 </style>
 	</head>
 	<body>
@@ -77,7 +85,7 @@
 						<label><input type="checkbox" id="curiosity_cam_fhaz" checked />Front Hazcam</label>
 						<label><input type="checkbox" id="curiosity_cam_rhaz" checked />Rear Hazcam</label>
 					</p>
-					<p><input id="curiosity_btn" type="submit" disabled /></p>
+					<p><input id="curiosity_btn" type="submit" /></p>
 				</form>
 			</div>
 
@@ -103,5 +111,8 @@
 				<p>If the format or address of the source site changes, this page will be broken.</p>
 			</div>
 		</div>
+		<h2 id="title"></h2>
+		<div id="thumbs"></div>
+		<div id="canvasbox"></div>
 	</body>
 </html>
