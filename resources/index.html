@@ -98,22 +98,6 @@
 				</form>
 			</div>
 
-			<input type="radio" name="tabs" id="opportunity_tab">
-			<label for="opportunity_tab">Oppotunity</label>
-			<div class="tab">
-				<form id="opportunity_form">
-					<p><label>Mission sol: <input id="opportunity_sol" type="number" min="1" max="1" /></label> <input type="button" value="Random" onclick="random_sol('opportunity_sol')" /></p>
-					<p>
-						<label><input type="checkbox" id="opportunity_cam_pan" checked />Pancam</label>
-						<label><input type="checkbox" id="opportunity_cam_nav" checked />Navcam</label>
-						<label><input type="checkbox" id="opportunity_cam_fhaz" checked />Front Hazcam</label>
-						<label><input type="checkbox" id="opportunity_cam_rhaz" checked />Rear Hazcam</label>
-					</p>
-					<p><input id="opportunity_btn" type="submit" disabled /></p>
-					<p><input type="submit" value="Previous day" onclick="document.getElementById('opportunity_sol').stepUp(-1)" disabled /> <input type="submit" value="Next day" onclick="document.getElementById('opportunity_sol').stepUp(1)" disabled /></p>
-				</form>
-			</div>
-
 			<input type="radio" name="tabs" id="about_tab" checked>
 			<label for="about_tab">?</label>
 			<div class="tab" style="text-align:left">

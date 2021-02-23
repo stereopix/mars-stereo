@@ -12,17 +12,10 @@ function set_sols_limits() {
 	var curiosity_lambda = 360 - 137.4;
 	var curiosity_sol = Math.floor(msd - curiosity_lambda / 360) - 49268;
 
-	var opportunity_sol_date = msd - 46235 - 0.042431;
-	var opportunity_sol = Math.floor(opportunity_sol_date);
-
 	var perseverance_sol_date = msd - 52304 - 0.447092;
 	var perseverance_sol = Math.floor(perseverance_sol_date);
 
 	var sol;
-
-	sol = document.getElementById("opportunity_sol");
-	sol.max = opportunity_sol;
-	if (!sol.value) sol.value = opportunity_sol;
 
 	sol = document.getElementById("curiosity_sol");
 	sol.max = curiosity_sol;
