@@ -88,7 +88,7 @@ function add_pairs(pairs, nbraws) {
 	for (var i in pairs) {
 		p = pairs[i];
 		var img = document.createElement("img");
-		img.src = p.l.replace(".JPG", "-thm.jpg");
+		img.src = p.t;
 		img.title = p.camera + " " + p.date;
 		img.onclick = thumb_clicked;
 		img.setAttribute("data-l", p.l);
@@ -136,6 +136,7 @@ function curiosity_scrap(e) {
 						var inst2 = item2['instrument'].split('_');
 						if (inst1[0] == inst2[0] && inst1[2] == inst2[2]) {
 							p = {
+								't': item1.url.replace(".JPG", "-thm.jpg"),
 								'l': item1.url,
 								'r': item2.url,
 								'camera': inst1[0]+'_'+inst1[2],
@@ -172,7 +173,86 @@ function curiosity_scrap(e) {
 	xhr.send();
 }
 
+function perseverance_scrap(e) {
+	e.preventDefault();
+	var cams = [];
+	var camssearch = "";
+	if (document.getElementById("perseverance_cam_mast").checked) cams.push("Mastcam"), camssearch += "MCZ_LEFT|MCZ_RIGHT|";
+	if (document.getElementById("perseverance_cam_nav").checked) cams.push("Navcam"), camssearch += "NAVCAM_LEFT|NAVCAM_RIGHT|";
+	if (document.getElementById("perseverance_cam_fhaz").checked) cams.push("Front Hazcam"), camssearch += "FRONT_HAZCAM_LEFT_A|FRONT_HAZCAM_RIGHT_A|FRONT_HAZCAM_LEFT_B|FRONT_HAZCAM_RIGHT_B|";
+	if (document.getElementById("perseverance_cam_fhaz").checked) cams.push("Rear Hazcam"), camssearch += "REAR_HAZCAM_LEFT|REAR_HAZCAM_RIGHT|";
+	var sol = document.getElementById("perseverance_sol").value;
+	document.getElementById("title").textContent = "Perseverance Sol "+sol+"\n("+cams.join(" + ")+")";
+
+	if (cams == "") {
+		document.getElementById("perseverance_cam_mast").checked = true;
+		document.getElementById("perseverance_cam_nav").checked = true;
+		document.getElementById("perseverance_cam_fhaz").checked = true;
+		document.getElementById("perseverance_cam_fhaz").checked = true;
+		perseverance_scrap(e);
+		return;
+	}
+
+	var thumbs = document.getElementById("thumbs");
+	thumbs.textContent = "Loading...";
+	document.getElementById("canvasbox").textContent = "";
+	var xhr = new XMLHttpRequest();
+	xhr.onload = function() {
+		data = JSON.parse(xhr.responseText);
+		if (data.images.length == 0) thumbs.textContent = "No photos found.";
+		else {
+			var pairs = []
+			for (var i = 0; i < data.images.length; i++) {
+				var item1 = data.images[i];
+				for (var j = i+1; j < data.images.length; j++) {
+				var item2 = data.images[j];
+					if (item1['sol'] != item2['sol']) break
+					if (item1['imageid'].substring(item1['imageid'].indexOf('_')) == item2['imageid'].substring(item2['imageid'].indexOf('_'))) {
+						var inst1 = item1['camera']['instrument'].split('_');
+						var inst2 = item2['camera']['instrument'].split('_');
+						if (inst1[0] == inst2[0] && (inst1.length != 4 || inst1[3] == inst2[3])) {
+							p = {
+								't': item1.image_files.small,
+								'l': item1.image_files.full_res,
+								'r': item2.image_files.full_res,
+								'camera': inst1[0].replace('_LEFT', '').replace('_RIGHT', ''),
+								'date': item1.date_taken_utc,
+							}
+							if ((inst1.length == 2 && inst1[1] == 'RIGHT') || inst1[2] == 'RIGHT') {
+								p.t = item2.image_files.small
+								p.l = item2.image_files.full_res
+								p.r = item1.image_files.full_res
+							}
+							pairs.push(p)
+							break
+						}
+					}
+				}
+			}
+			add_pairs(pairs, data.images.length);
+		}
+	};
+	xhr.onerror = function() {
+		thumbs.textContent = "Error while loading.";
+	}
+	var url = new URL("https://mars.nasa.gov/rss/api/", document.location);
+	url.search = new URLSearchParams({
+		"feed": "raw_images",
+		"category": "mars2020",
+		"feedtype": "json",
+		"num": 2500,
+		"page": 0,
+		"search": camssearch,
+		"condition_2": sol+":sol:gte",
+		"condition_3": sol+":sol:lte",
+		"extended": "sample_type::full",
+	});
+	xhr.open("GET", url.toString(), true);
+	xhr.send();
+}
+
 window.addEventListener("DOMContentLoaded", function(event) {
 	set_sols_limits();
 	document.getElementById("curiosity_form").addEventListener('submit', curiosity_scrap);
+	document.getElementById("perseverance_form").addEventListener('submit', perseverance_scrap);
 });
