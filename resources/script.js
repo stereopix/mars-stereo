@@ -68,7 +68,7 @@ function thumb_clicked() {
 			cbox.appendChild(document.createElement("br"));
 			cbox.appendChild(document.createTextNode(thumb.getAttribute("data-camera")));
 
-		} else if (imgL.loaded) {
+		} else if (imgL.complete) {
 			cbox.textContent = "Loading right...";
 		} else {
 			cbox.textContent = "Loading left...";
