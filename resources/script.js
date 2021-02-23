@@ -33,6 +33,11 @@ function set_sols_limits() {
 	if (!sol.value) sol.value = perseverance_sol;
 }
 
+function random_sol(input_name) {
+	var input = document.getElementById(input_name);
+	if (input) input.value = Math.floor(Math.random() * (Number(input.max) - Number(input.min) + 1) + Number(input.min));
+}
+
 function thumb_clicked() {
 	var thumb = this;
 	var imgL = new Image();
