@@ -117,14 +117,14 @@ function curiosity_scrap(e) {
 	var camssearch = "";
 	if (document.getElementById("curiosity_cam_nav").checked) cams.push("Navcam"), camssearch += "NAV_LEFT_A|NAV_RIGHT_A|NAV_LEFT_B|NAV_RIGHT_B|";
 	if (document.getElementById("curiosity_cam_fhaz").checked) cams.push("Front Hazcam"), camssearch += "FHAZ_LEFT_A|FHAZ_RIGHT_A|FHAZ_LEFT_B|FHAZ_RIGHT_B|";
-	if (document.getElementById("curiosity_cam_fhaz").checked) cams.push("Rear Hazcam"), camssearch += "RHAZ_LEFT_A|RHAZ_RIGHT_A|RHAZ_LEFT_B|RHAZ_RIGHT_B|";
+	if (document.getElementById("curiosity_cam_rhaz").checked) cams.push("Rear Hazcam"), camssearch += "RHAZ_LEFT_A|RHAZ_RIGHT_A|RHAZ_LEFT_B|RHAZ_RIGHT_B|";
 	var sol = document.getElementById("curiosity_sol").value;
 	document.getElementById("title").textContent = "Curiosity Sol "+sol+"\n("+cams.join(" + ")+")";
 
 	if (cams == "") {
 		document.getElementById("curiosity_cam_nav").checked = true;
 		document.getElementById("curiosity_cam_fhaz").checked = true;
-		document.getElementById("curiosity_cam_fhaz").checked = true;
+		document.getElementById("curiosity_cam_rhaz").checked = true;
 		curiosity_scrap(e);
 		return;
 	}
@@ -194,7 +194,7 @@ function perseverance_scrap(e) {
 	if (document.getElementById("perseverance_cam_mast").checked) cams.push("Mastcam"), camssearch += "MCZ_LEFT|MCZ_RIGHT|";
 	if (document.getElementById("perseverance_cam_nav").checked) cams.push("Navcam"), camssearch += "NAVCAM_LEFT|NAVCAM_RIGHT|";
 	if (document.getElementById("perseverance_cam_fhaz").checked) cams.push("Front Hazcam"), camssearch += "FRONT_HAZCAM_LEFT_A|FRONT_HAZCAM_RIGHT_A|FRONT_HAZCAM_LEFT_B|FRONT_HAZCAM_RIGHT_B|";
-	if (document.getElementById("perseverance_cam_fhaz").checked) cams.push("Rear Hazcam"), camssearch += "REAR_HAZCAM_LEFT|REAR_HAZCAM_RIGHT|";
+	if (document.getElementById("perseverance_cam_rhaz").checked) cams.push("Rear Hazcam"), camssearch += "REAR_HAZCAM_LEFT|REAR_HAZCAM_RIGHT|";
 	var sol = document.getElementById("perseverance_sol").value;
 	document.getElementById("title").textContent = "Perseverance Sol "+sol+"\n("+cams.join(" + ")+")";
 
@@ -202,7 +202,7 @@ function perseverance_scrap(e) {
 		document.getElementById("perseverance_cam_mast").checked = true;
 		document.getElementById("perseverance_cam_nav").checked = true;
 		document.getElementById("perseverance_cam_fhaz").checked = true;
-		document.getElementById("perseverance_cam_fhaz").checked = true;
+		document.getElementById("perseverance_cam_rhaz").checked = true;
 		perseverance_scrap(e);
 		return;
 	}
