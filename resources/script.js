@@ -83,7 +83,8 @@ function thumb_clicked() {
 	var athumbs = document.createElement("a");
 	athumbs.id = "athumbs";
 	athumbs.href = "#";
-	athumbs.onclick = function() {
+	athumbs.onclick = function(e) {
+		e.preventDefault();
 		thumbs.classList.remove("hidden");
 		athumbs.remove();
 	}
