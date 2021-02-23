@@ -79,6 +79,18 @@ function thumb_clicked() {
 	cbox.textContent = "Loading left & right...";
 	imgL.src = thumb.getAttribute('data-l');
 	imgR.src = thumb.getAttribute('data-r');
+
+	var thumbs = document.getElementById("thumbs");
+	thumbs.classList.add("hidden")
+	var athumbs = document.createElement("a");
+	athumbs.id = "athumbs";
+	athumbs.href = "#";
+	athumbs.onclick = function() {
+		thumbs.classList.remove("hidden");
+		athumbs.remove();
+	}
+	athumbs.textContent = "↓ Show thumbs ↓";
+	thumbs.parentNode.insertBefore(athumbs, thumbs);
 }
 
 function add_pairs(pairs, nbraws) {
@@ -118,8 +130,10 @@ function curiosity_scrap(e) {
 	}
 
 	var thumbs = document.getElementById("thumbs");
+	thumbs.classList.remove("hidden");
 	thumbs.textContent = "Loading...";
 	document.getElementById("canvasbox").textContent = "";
+	var athumbs = document.getElementById("athumbs"); athumbs && athumbs.remove();
 	var xhr = new XMLHttpRequest();
 	xhr.onload = function() {
 		data = JSON.parse(xhr.responseText);
@@ -194,8 +208,10 @@ function perseverance_scrap(e) {
 	}
 
 	var thumbs = document.getElementById("thumbs");
+	thumbs.classList.remove("hidden");
 	thumbs.textContent = "Loading...";
 	document.getElementById("canvasbox").textContent = "";
+	var athumbs = document.getElementById("athumbs"); athumbs && athumbs.remove();
 	var xhr = new XMLHttpRequest();
 	xhr.onload = function() {
 		data = JSON.parse(xhr.responseText);
