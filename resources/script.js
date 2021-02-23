@@ -83,7 +83,7 @@ function thumb_clicked() {
 
 function add_pairs(pairs, nbraws) {
 	var thumbs = document.getElementById("thumbs");
-	thumbs.textContent = nbraws + " monoscopic photos found, " + pairs.length + " pairs formed.";
+	thumbs.textContent = nbraws + " monoscopic photos found, " + pairs.length + " pairs matched.";
 	thumbs.appendChild(document.createElement("br"));
 	for (var i in pairs) {
 		p = pairs[i];
