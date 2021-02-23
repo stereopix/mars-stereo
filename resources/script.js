@@ -136,7 +136,7 @@ function curiosity_scrap(e) {
 						var inst2 = item2['instrument'].split('_');
 						if (inst1[0] == inst2[0] && inst1[2] == inst2[2]) {
 							p = {
-								't': item1.url.replace(".JPG", "-thm.jpg"),
+								't': item1.url.replace(".JPG", "-thm2.jpg"),
 								'l': item1.url,
 								'r': item2.url,
 								'camera': inst1[0]+'_'+inst1[2],
