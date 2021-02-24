@@ -47,6 +47,9 @@ function thumb_clicked() {
 	var imgR = new Image();
 	var loaded = 0;
 	var cbox = document.getElementById("canvasbox");
+	if (!thumb.getAttribute('data-l') || !thumb.getAttribute('data-r')) {
+		return;
+	}
 	function assemble() {
 		loaded += 1;
 		if (loaded == 2) {
@@ -111,7 +114,7 @@ function thumb_clicked() {
 	thumbs.parentNode.insertBefore(athumbs, thumbs);
 }
 
-function add_pairs(pairs, nbraws) {
+function add_pairs(pairs, unmatched, nbraws) {
 	pairs.sort(function (a, b) { return a.date.localeCompare(b.date); });
 	var thumbs = document.getElementById("thumbs");
 	thumbs.textContent = nbraws + " monoscopic photos found, " + pairs.length + " pairs matched.";
@@ -127,6 +130,24 @@ function add_pairs(pairs, nbraws) {
 		img.setAttribute("data-date", p.date);
 		img.setAttribute("data-camera", p.camera);
 		thumbs.appendChild(img);
+	}
+	if (unmatched.length) {
+		thumbs.appendChild(document.createElement("br"));
+		thumbs.appendChild(document.createElement("br"));
+		thumbs.appendChild(document.createTextNode("Unmatched:"));
+		thumbs.appendChild(document.createElement("br"));
+		for (var i in unmatched) {
+			p = unmatched[i];
+			var img = document.createElement("img");
+			img.src = p.t;
+			img.title = p.camera + " " + p.date;
+			img.onclick = thumb_clicked;
+			if (p.l) img.setAttribute("data-l", p.l);
+			if (p.r) img.setAttribute("data-r", p.r);
+			img.setAttribute("data-date", p.date);
+			img.setAttribute("data-camera", p.camera);
+			thumbs.appendChild(img);
+		}
 	}
 }
 
@@ -186,7 +207,7 @@ function curiosity_scrap(e) {
 					}
 				}
 			}
-			add_pairs(pairs, data.items.length);
+			add_pairs(pairs, [], data.items.length);
 		}
 	};
 	xhr.onerror = function() {
@@ -276,7 +297,7 @@ function perseverance_scrap(e, page, photos0) {
 					}
 				}
 			}
-			add_pairs(pairs, photos.length);
+			add_pairs(pairs, [], photos.length);
 		}
 	};
 	xhr.onerror = function() {
