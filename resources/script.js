@@ -1,3 +1,13 @@
+var viewer = null;
+window.addEventListener('message', function(e) {
+	if (e.origin == 'https://stereopix.net') {
+		if (e.data.type == 'viewerReady') {
+			viewer = e.source;
+			document.getElementById("stereopix_viewer").classList.add("hidden");
+		}
+	}
+});
+
 function set_sols_limits() {
 	// Based on http://marsclock.com/ by James Tauber
 	var d = new Date();
@@ -48,8 +58,14 @@ function thumb_clicked() {
 			ctx.drawImage(imgL, 0, 0);
 			ctx.drawImage(imgR, canvas.width - imgR.width, 0);
 			cbox.textContent = "";
-			cbox.appendChild(canvas);
-			cbox.appendChild(document.createElement("br"));
+			if (viewer) {
+				viewer.postMessage({'stereopix_action': 'list_clear'}, 'https://stereopix.net');
+				viewer.postMessage({'stereopix_action': 'list_add_url', 'url': canvas.toDataURL()}, 'https://stereopix.net');
+				document.getElementById("stereopix_viewer").classList.remove("hidden");
+			} else {
+				cbox.appendChild(canvas);
+				cbox.appendChild(document.createElement("br"));
+			}
 			var al = document.createElement("a");
 			al.href = imgL.src;
 			al.target = "_blank";
@@ -82,6 +98,7 @@ function thumb_clicked() {
 
 	var thumbs = document.getElementById("thumbs");
 	thumbs.classList.add("hidden")
+	document.getElementById("stereopix_viewer").classList.add("hidden");
 	var athumbs = document.createElement("a");
 	athumbs.id = "athumbs";
 	athumbs.href = "#";
@@ -133,6 +150,7 @@ function curiosity_scrap(e) {
 
 	var thumbs = document.getElementById("thumbs");
 	thumbs.classList.remove("hidden");
+	document.getElementById("stereopix_viewer").classList.add("hidden");
 	thumbs.textContent = "Loading...";
 	document.getElementById("canvasbox").textContent = "";
 	var athumbs = document.getElementById("athumbs"); athumbs && athumbs.remove();
@@ -214,6 +232,7 @@ function perseverance_scrap(e, page, photos0) {
 	var thumbs = document.getElementById("thumbs");
 	if (page == 0) {
 		thumbs.classList.remove("hidden");
+		document.getElementById("stereopix_viewer").classList.add("hidden");
 		thumbs.textContent = "Loading...";
 		document.getElementById("canvasbox").textContent = "";
 		var athumbs = document.getElementById("athumbs"); athumbs && athumbs.remove();
