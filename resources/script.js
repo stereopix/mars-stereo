@@ -181,6 +181,7 @@ function curiosity_scrap(e) {
 		if (data.items.length == 0) thumbs.textContent = "No photos found.";
 		else {
 			var pairs = []
+			var unmatched = []
 			for (var i = 0; i < data.items.length; i++) {
 				var item1 = data.items[i];
 				for (var j = i+1; j < data.items.length; j++) {
@@ -201,13 +202,30 @@ function curiosity_scrap(e) {
 								p.l = item2.url
 								p.r = item1.url
 							}
+							item1['matched'] = true;
+							item2['matched'] = true;
 							pairs.push(p)
 							break
 						}
 					}
 				}
+				if (j == data.items.length && !item1['matched']) {
+					var inst1 = item1['instrument'].split('_');
+					var p = {
+						't': item1.url.replace(".JPG", "-thm2.jpg"),
+						'l': null,
+						'r': null,
+						'camera': inst1[0]+'_'+inst1[2],
+						'date': item1.date_taken,
+					}
+					if (inst1[1] == 'RIGHT')
+						p['r'] = item1.url;
+					else
+						p['l'] = item1.url;
+					unmatched.push(p);
+				}
 			}
-			add_pairs(pairs, [], data.items.length);
+			add_pairs(pairs, unmatched, data.items.length);
 		}
 	};
 	xhr.onerror = function() {
@@ -268,6 +286,7 @@ function perseverance_scrap(e, page, photos0) {
 		} else {
 			photos = photos0.concat(data.images)
 			var pairs = [];
+			var unmatched = [];
 			for (var i = 0; i < photos.length; i++) {
 				var item1 = photos[i];
 				for (var j = i+1; j < photos.length; j++) {
@@ -291,13 +310,29 @@ function perseverance_scrap(e, page, photos0) {
 								p.l = item2.image_files.full_res
 								p.r = item1.image_files.full_res
 							}
+							item1['matched'] = true;
+							item2['matched'] = true;
 							pairs.push(p)
 							break
 						}
 					}
 				}
+				if (j == photos.length && !item1['matched']) {
+					var p = {
+						't': item1.image_files.small,
+						'l': null,
+						'r': null,
+						'camera': item1.camera.instrument.replace('_LEFT', '').replace('_RIGHT', ''),
+						'date': item1.date_taken_utc,
+					}
+					if (item1['camera']['instrument'].search('_RIGHT') >= 0)
+						p['r'] = item1.image_files.full_res;
+					else
+						p['l'] = item1.image_files.full_res;
+					unmatched.push(p);
+				}
 			}
-			add_pairs(pairs, [], photos.length);
+			add_pairs(pairs, unmatched, photos.length);
 		}
 	};
 	xhr.onerror = function() {
