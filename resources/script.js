@@ -187,8 +187,10 @@ function curiosity_scrap(e) {
 	xhr.send();
 }
 
-function perseverance_scrap(e) {
+function perseverance_scrap(e, page, photos0) {
 	e.preventDefault();
+	if (!page) page = 0;
+	if (!photos0) photos0 = [];
 	var cams = [];
 	var camssearch = "";
 	if (document.getElementById("perseverance_cam_mast").checked) cams.push("Mastcam"), camssearch += "MCZ_LEFT|MCZ_RIGHT|";
@@ -208,20 +210,26 @@ function perseverance_scrap(e) {
 	}
 
 	var thumbs = document.getElementById("thumbs");
-	thumbs.classList.remove("hidden");
-	thumbs.textContent = "Loading...";
-	document.getElementById("canvasbox").textContent = "";
-	var athumbs = document.getElementById("athumbs"); athumbs && athumbs.remove();
+	if (page == 0) {
+		thumbs.classList.remove("hidden");
+		thumbs.textContent = "Loading...";
+		document.getElementById("canvasbox").textContent = "";
+		var athumbs = document.getElementById("athumbs"); athumbs && athumbs.remove();
+	}
 	var xhr = new XMLHttpRequest();
 	xhr.onload = function() {
 		data = JSON.parse(xhr.responseText);
 		if (data.images.length == 0) thumbs.textContent = "No photos found.";
-		else {
-			var pairs = []
-			for (var i = 0; i < data.images.length; i++) {
-				var item1 = data.images[i];
-				for (var j = i+1; j < data.images.length; j++) {
-					var item2 = data.images[j];
+		else if (photos0.length + data.images.length < data.total_results) {
+			photos = photos0.concat(data.images)
+			perseverance_scrap(e, page+1, photos);
+		} else {
+			photos = photos0.concat(data.images)
+			var pairs = [];
+			for (var i = 0; i < photos.length; i++) {
+				var item1 = photos[i];
+				for (var j = i+1; j < photos.length; j++) {
+					var item2 = photos[j];
 					if (item1['sol'] != item2['sol']) break
 					if (item1['imageid'].substring(item1['imageid'].indexOf('_')) == item2['imageid'].substring(item2['imageid'].indexOf('_'))) {
 						var inst1 = item1['camera']['instrument'].split('_');
@@ -245,7 +253,7 @@ function perseverance_scrap(e) {
 					}
 				}
 			}
-			add_pairs(pairs, data.images.length);
+			add_pairs(pairs, photos.length);
 		}
 	};
 	xhr.onerror = function() {
@@ -256,8 +264,8 @@ function perseverance_scrap(e) {
 		"feed": "raw_images",
 		"category": "mars2020",
 		"feedtype": "json",
-		"num": 2500,
-		"page": 0,
+		"num": 100,
+		"page": page,
 		"search": camssearch,
 		"condition_2": sol+":sol:gte",
 		"condition_3": sol+":sol:lte",
