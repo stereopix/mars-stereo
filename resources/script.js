@@ -143,7 +143,7 @@ function curiosity_scrap(e) {
 			for (var i = 0; i < data.items.length; i++) {
 				var item1 = data.items[i];
 				for (var j = i+1; j < data.items.length; j++) {
-				var item2 = data.items[j];
+					var item2 = data.items[j];
 					if (item1['sol'] != item2['sol']) break
 					if (item1['date_taken'] == item2['date_taken']) {
 						var inst1 = item1['instrument'].split('_');
@@ -221,7 +221,7 @@ function perseverance_scrap(e) {
 			for (var i = 0; i < data.images.length; i++) {
 				var item1 = data.images[i];
 				for (var j = i+1; j < data.images.length; j++) {
-				var item2 = data.images[j];
+					var item2 = data.images[j];
 					if (item1['sol'] != item2['sol']) break
 					if (item1['imageid'].substring(item1['imageid'].indexOf('_')) == item2['imageid'].substring(item2['imageid'].indexOf('_'))) {
 						var inst1 = item1['camera']['instrument'].split('_');
