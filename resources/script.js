@@ -41,14 +41,34 @@ function random_sol(input_name) {
 	if (input) input.value = Math.floor(Math.random() * (Number(input.max) - Number(input.min) + 1) + Number(input.min));
 }
 
+var thumb_l = null;
+var thumb_r = null;
 function thumb_clicked() {
 	var thumb = this;
 	var imgL = new Image();
 	var imgR = new Image();
 	var loaded = 0;
 	var cbox = document.getElementById("canvasbox");
-	if (!thumb.getAttribute('data-l') || !thumb.getAttribute('data-r')) {
-		return;
+	if (!this.getAttribute('type')) {
+		if (!thumb.getAttribute('data-l') || !thumb.getAttribute('data-r')) {
+			if (thumb.getAttribute('data-l')) {
+				if (thumb_l) thumb_l.classList.remove("selected");
+				thumb_l = thumb_l == thumb ? null : thumb;
+				if (thumb_l) thumb_l.classList.add("selected");
+			}
+			if (thumb.getAttribute('data-r')) {
+				if (thumb_r) thumb_r.classList.remove("selected");
+				thumb_r = thumb_r == thumb ? null : thumb;
+				if (thumb_r) thumb_r.classList.add("selected");
+			}
+			document.getElementById("thumb_mix_btn").disabled = !(thumb_l && thumb_r);
+			return;
+		} else {
+			if (thumb_l) thumb_l.classList.remove("selected");
+			thumb_l = thumb;
+			if (thumb_r) thumb_r.classList.remove("selected");
+			thumb_r = thumb;
+		}
 	}
 	function assemble() {
 		loaded += 1;
@@ -81,22 +101,27 @@ function thumb_clicked() {
 			ar.textContent = "Right image"
 			cbox.appendChild(ar);
 			cbox.appendChild(document.createElement("br"));
-			cbox.appendChild(document.createTextNode(thumb.getAttribute("data-date")));
+			cbox.appendChild(document.createTextNode(thumb_l.getAttribute("data-date")));
 			cbox.appendChild(document.createElement("br"));
-			cbox.appendChild(document.createTextNode(thumb.getAttribute("data-camera")));
+			cbox.appendChild(document.createTextNode(thumb_l.getAttribute("data-camera")));
 
 		} else if (imgL.complete) {
 			cbox.textContent = "Loading right...";
 		} else {
 			cbox.textContent = "Loading left...";
 		}
+		if (thumb_l) thumb_l.classList.remove("selected");
+		thumb_l = null;
+		if (thumb_r) thumb_r.classList.remove("selected");
+		thumb_r = null;
+		document.getElementById("thumb_mix_btn").disabled = true;
 	}
 	imgL.onload = assemble;
 	imgR.onload = assemble;
 	cbox.textContent = "Loading left & right...";
-	imgL.src = thumb.getAttribute('data-l').replace('https://mars.nasa.gov/mars2020-raw-images/', '/img/perseverance/')
+	imgL.src = thumb_l.getAttribute('data-l').replace('https://mars.nasa.gov/mars2020-raw-images/', '/img/perseverance/')
 	                                       .replace('https://mars.nasa.gov/msl-raw-images/', '/img/curiosity/');
-	imgR.src = thumb.getAttribute('data-r').replace('https://mars.nasa.gov/mars2020-raw-images/', '/img/perseverance/')
+	imgR.src = thumb_r.getAttribute('data-r').replace('https://mars.nasa.gov/mars2020-raw-images/', '/img/perseverance/')
 	                                       .replace('https://mars.nasa.gov/msl-raw-images/', '/img/curiosity/');
 
 	var thumbs = document.getElementById("thumbs");
@@ -148,6 +173,13 @@ function add_pairs(pairs, unmatched, nbraws) {
 			img.setAttribute("data-camera", p.camera);
 			thumbs.appendChild(img);
 		}
+		var btn = document.createElement("input");
+		btn.id = "thumb_mix_btn";
+		btn.type = "button";
+		btn.value = "Mix selected photos";
+		btn.disabled = true;
+		btn.onclick = thumb_clicked;
+		thumbs.appendChild(btn);
 	}
 }
 
