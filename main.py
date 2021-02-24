@@ -42,6 +42,12 @@ async def forward(request, url):
 async def http_api_curiosity(request):
   return await forward(request, 'https://mars.nasa.gov/api/v1/raw_image_items/?'+request.query_string)
 
+async def http_img_curiosity(request):
+  return await forward(request, 'https://mars.nasa.gov/msl-raw-images/' + request.match_info['path'])
+
+async def http_img_perseverance(request):
+  return await forward(request, 'https://mars.nasa.gov/mars2020-raw-images/' + request.match_info['path'])
+
 @web.middleware
 async def error_middleware(request, handler):
     try:
@@ -54,6 +60,8 @@ async def start_server(host, port):
     app.add_routes([
       web.get('/', http_root_handler),
       web.get('/api/curiosity.json', http_api_curiosity),
+      web.get('/img/curiosity/{path:.*}', http_img_curiosity),
+      web.get('/img/perseverance/{path:.*}', http_img_perseverance),
       web.static('/', 'resources'),
     ])
     app.middlewares.append(error_middleware)
