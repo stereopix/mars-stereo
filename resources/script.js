@@ -231,7 +231,9 @@ function perseverance_scrap(e, page, photos0) {
 				for (var j = i+1; j < photos.length; j++) {
 					var item2 = photos[j];
 					if (item1['sol'] != item2['sol']) break
-					if (item1['imageid'].substring(item1['imageid'].indexOf('_')) == item2['imageid'].substring(item2['imageid'].indexOf('_'))) {
+					if (item1['imageid'].substring(item1['imageid'].indexOf('_')) == item2['imageid'].substring(item2['imageid'].indexOf('_')) &&
+					    item1['camera']['filter_name'].substring(item1['camera']['filter_name'].lastIndexOf('_')-1) ==
+					    item2['camera']['filter_name'].substring(item2['camera']['filter_name'].lastIndexOf('_')-1)) {
 						var inst1 = item1['camera']['instrument'].split('_');
 						var inst2 = item2['camera']['instrument'].split('_');
 						if (inst1[0] == inst2[0] && (inst1.length != 4 || inst1[3] == inst2[3])) {
