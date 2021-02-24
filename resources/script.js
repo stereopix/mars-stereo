@@ -93,6 +93,7 @@ function thumb_clicked() {
 }
 
 function add_pairs(pairs, nbraws) {
+	pairs.sort(function (a, b) { return a.date.localeCompare(b.date); });
 	var thumbs = document.getElementById("thumbs");
 	thumbs.textContent = nbraws + " monoscopic photos found, " + pairs.length + " pairs matched.";
 	thumbs.appendChild(document.createElement("br"));
