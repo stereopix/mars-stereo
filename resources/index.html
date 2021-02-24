@@ -109,10 +109,15 @@
 			<input type="radio" name="tabs" id="about_tab" checked>
 			<label for="about_tab">?</label>
 			<div class="tab" style="text-align:left">
-				<p>Photos and list of photos are downloaded from <a href="https://mars.nasa.gov/">https://mars.nasa.gov/</a> and matched by script.</p>
-				<p>If the format or address of the source site changes, this page will be broken.</p>
-				<p>Each robot needs its own scrapping method, thus only Curiosity (landed in 2012) and Perseverance (landed in 2021) are coded. Feel free to contribute for other robots.</p>
-				<p>If you want to contribute, the code is available here: <a href="https://github.com/stereopix/mars-stereo">https://github.com/stereopix/mars-stereo</a></p>
+				<p>Photos and list of photos are downloaded from <a href="https://mars.nasa.gov/">https://mars.nasa.gov/</a> and matched by script.<br/>
+				If the format or address of the source site change, this page will be broken.</p>
+				<p>The matching is not always perfect and can miss pairs. Often those missed pairs look visually okay, but are taken in cha-cha so that the tool cannot match them automatically. Occasionally the reason is more subtle.<br/>
+				The pairs are not processed, so that the stereo window is at infinity, the images can be misaligned and the deformation of the lens can change the depth or make it hard to fuse.<br/>
+				Sometimes, the pair looks mismatched, but it is likely because the bases of the stereocameras are very large and the depicted objects are too close.<br/>
+				Looking at photos where the rover is visible might be particularly painful for this reason, you are warned!</p>
+				<p>Each robot needs its own scrapping method, thus only Curiosity (landed in 2012) and Perseverance (landed in 2021) are coded. Feel free to contribute for other robots.<br/>
+				If you want to contribute, the code is available here: <a href="https://github.com/stereopix/mars-stereo">https://github.com/stereopix/mars-stereo</a></p>
+				<p>Have fun exploring Mars in 3D.</p>
 			</div>
 		</div>
 		<h2 id="title"></h2>
