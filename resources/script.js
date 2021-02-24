@@ -75,8 +75,10 @@ function thumb_clicked() {
 	imgL.onload = assemble;
 	imgR.onload = assemble;
 	cbox.textContent = "Loading left & right...";
-	imgL.src = thumb.getAttribute('data-l');
-	imgR.src = thumb.getAttribute('data-r');
+	imgL.src = thumb.getAttribute('data-l').replace('https://mars.nasa.gov/mars2020-raw-images/', '/img/perseverance/')
+	                                       .replace('https://mars.nasa.gov/msl-raw-images/', '/img/curiosity/');
+	imgR.src = thumb.getAttribute('data-r').replace('https://mars.nasa.gov/mars2020-raw-images/', '/img/perseverance/')
+	                                       .replace('https://mars.nasa.gov/msl-raw-images/', '/img/curiosity/');
 
 	var thumbs = document.getElementById("thumbs");
 	thumbs.classList.add("hidden")
