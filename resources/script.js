@@ -104,16 +104,16 @@ function thumb_clicked() {
 			cbox.appendChild(document.createTextNode(thumb_l.getAttribute("data-date")));
 			cbox.appendChild(document.createElement("br"));
 			cbox.appendChild(document.createTextNode(thumb_l.getAttribute("data-camera")));
+			if (thumb_l) thumb_l.classList.remove("selected");
+			thumb_l = null;
+			if (thumb_r) thumb_r.classList.remove("selected");
+			thumb_r = null;
 
 		} else if (imgL.complete) {
 			cbox.textContent = "Loading right...";
 		} else {
 			cbox.textContent = "Loading left...";
 		}
-		if (thumb_l) thumb_l.classList.remove("selected");
-		thumb_l = null;
-		if (thumb_r) thumb_r.classList.remove("selected");
-		thumb_r = null;
 		document.getElementById("thumb_mix_btn").disabled = true;
 	}
 	imgL.onload = assemble;
