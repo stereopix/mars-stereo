@@ -388,6 +388,7 @@ function perseverance_scrap(e, page, photos0) {
 
 window.addEventListener("DOMContentLoaded", function(event) {
 	set_sols_limits();
+	document.getElementById("stereopix_viewer").src = "https://stereopix.net/viewer:embed/";
 	document.getElementById("curiosity_form").addEventListener('submit', curiosity_scrap);
 	document.getElementById("perseverance_form").addEventListener('submit', perseverance_scrap);
 });
