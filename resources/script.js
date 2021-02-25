@@ -173,6 +173,7 @@ function add_pairs(pairs, unmatched, nbraws) {
 			img.setAttribute("data-camera", p.camera);
 			thumbs.appendChild(img);
 		}
+		thumbs.appendChild(document.createElement("br"));
 		var btn = document.createElement("input");
 		btn.id = "thumb_mix_btn";
 		btn.type = "button";
