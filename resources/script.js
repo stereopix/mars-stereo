@@ -61,7 +61,8 @@ function thumb_clicked() {
 				thumb_r = thumb_r == thumb ? null : thumb;
 				if (thumb_r) thumb_r.classList.add("selected");
 			}
-			document.getElementById("thumb_mix_btn").disabled = !(thumb_l && thumb_r);
+			var btn = document.getElementById("thumb_mix_btn");
+			if (btn) btn.disabled = !(thumb_l && thumb_r);
 			return;
 		} else {
 			if (thumb_l) thumb_l.classList.remove("selected");
@@ -137,7 +138,8 @@ function thumb_clicked() {
 		} else {
 			cbox.textContent = "Loading left...";
 		}
-		document.getElementById("thumb_mix_btn").disabled = true;
+		var btn = document.getElementById("thumb_mix_btn");
+		if (btn) btn.disabled = true;
 	}
 	imgL.onload = assemble;
 	imgR.onload = assemble;
