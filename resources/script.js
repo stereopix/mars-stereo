@@ -89,17 +89,35 @@ function thumb_clicked() {
 				cbox.appendChild(canvas);
 				cbox.appendChild(document.createElement("br"));
 			}
+			cbox.appendChild(document.createTextNode("Left: "));
 			var al = document.createElement("a");
-			al.href = imgL.src;
+			al.href = thumb_l.getAttribute("data-l");
 			al.target = "_blank";
-			al.textContent = "Left image"
+			al.textContent = "[Image]"
 			cbox.appendChild(al);
+			if (thumb_l.getAttribute("data-page-l")) {
+				cbox.appendChild(document.createTextNode(" "));
+				var alp = document.createElement("a");
+				alp.href = thumb_l.getAttribute("data-page-l");
+				alp.target = "_blank";
+				alp.textContent = "[Page]"
+				cbox.appendChild(alp);
+			}
 			cbox.appendChild(document.createElement("br"));
+			cbox.appendChild(document.createTextNode("Right: "));
 			var ar = document.createElement("a");
-			ar.href = imgR.src;
+			ar.href = thumb_r.getAttribute("data-r");
 			ar.target = "_blank";
-			ar.textContent = "Right image"
+			ar.textContent = "[Image]"
 			cbox.appendChild(ar);
+			if (thumb_r.getAttribute("data-page-r")) {
+				cbox.appendChild(document.createTextNode(" "));
+				var arp = document.createElement("a");
+				arp.href = thumb_r.getAttribute("data-page-r");
+				arp.target = "_blank";
+				arp.textContent = "[Page]"
+				cbox.appendChild(arp);
+			}
 			cbox.appendChild(document.createElement("br"));
 			cbox.appendChild(document.createTextNode(thumb_l.getAttribute("data-date")));
 			cbox.appendChild(document.createElement("br"));
@@ -152,6 +170,8 @@ function add_pairs(pairs, unmatched, nbraws) {
 		img.onclick = thumb_clicked;
 		img.setAttribute("data-l", p.l);
 		img.setAttribute("data-r", p.r);
+		if (p['page-l']) img.setAttribute("data-page-l", p['page-l']);
+		if (p['page-r']) img.setAttribute("data-page-r", p['page-r']);
 		img.setAttribute("data-date", p.date);
 		img.setAttribute("data-camera", p.camera);
 		thumbs.appendChild(img);
@@ -169,6 +189,8 @@ function add_pairs(pairs, unmatched, nbraws) {
 			img.onclick = thumb_clicked;
 			if (p.l) img.setAttribute("data-l", p.l);
 			if (p.r) img.setAttribute("data-r", p.r);
+			if (p['page-l']) img.setAttribute("data-page-l", p['page-l']);
+			if (p['page-r']) img.setAttribute("data-page-r", p['page-r']);
 			img.setAttribute("data-date", p.date);
 			img.setAttribute("data-camera", p.camera);
 			thumbs.appendChild(img);
@@ -335,6 +357,8 @@ function perseverance_scrap(e, page, photos0) {
 								't': item1.image_files.small,
 								'l': item1.image_files.full_res,
 								'r': item2.image_files.full_res,
+								'page-l': "https://mars.nasa.gov/mars2020/multimedia/raw-images/" + item1.imageid,
+								'page-r': "https://mars.nasa.gov/mars2020/multimedia/raw-images/" + item2.imageid,
 								'camera': inst1[0].replace('_LEFT', '').replace('_RIGHT', ''),
 								'date': item1.date_taken_utc,
 							}
@@ -342,6 +366,8 @@ function perseverance_scrap(e, page, photos0) {
 								p.t = item2.image_files.small
 								p.l = item2.image_files.full_res
 								p.r = item1.image_files.full_res
+								p['page-l'] = "https://mars.nasa.gov/mars2020/multimedia/raw-images/" + item2.imageid;
+								p['page-r'] = "https://mars.nasa.gov/mars2020/multimedia/raw-images/" + item1.imageid;
 							}
 							item1['matched'] = true;
 							item2['matched'] = true;
@@ -358,10 +384,13 @@ function perseverance_scrap(e, page, photos0) {
 						'camera': item1.camera.instrument.replace('_LEFT', '').replace('_RIGHT', ''),
 						'date': item1.date_taken_utc,
 					}
-					if (item1['camera']['instrument'].search('_RIGHT') >= 0)
+					if (item1['camera']['instrument'].search('_RIGHT') >= 0) {
 						p['r'] = item1.image_files.full_res;
-					else
+						p['page-r'] = "https://mars.nasa.gov/mars2020/multimedia/raw-images/" + item1.imageid;
+					} else {
 						p['l'] = item1.image_files.full_res;
+						p['page-l'] = "https://mars.nasa.gov/mars2020/multimedia/raw-images/" + item1.imageid;
+					}
 					unmatched.push(p);
 				}
 			}
