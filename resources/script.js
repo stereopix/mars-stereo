@@ -82,9 +82,14 @@ function thumb_clicked() {
 			ctx.drawImage(imgR, canvas.width - imgR.width, 0);
 			cbox.textContent = "";
 			if (viewer) {
-				viewer.postMessage({'stereopix_action': 'list_clear'}, 'https://stereopix.net');
-				viewer.postMessage({'stereopix_action': 'list_add_url', 'url': canvas.toDataURL()}, 'https://stereopix.net');
-				document.getElementById("stereopix_viewer").classList.remove("hidden");
+				try {
+					viewer.postMessage({'stereopix_action': 'list_clear'}, 'https://stereopix.net');
+					viewer.postMessage({'stereopix_action': 'list_add_url', 'url': canvas.toDataURL()}, 'https://stereopix.net');
+					document.getElementById("stereopix_viewer").classList.remove("hidden");
+				} catch(DOMException) {
+					cbox.appendChild(canvas);
+					cbox.appendChild(document.createElement("br"));
+				}
 			} else {
 				cbox.appendChild(canvas);
 				cbox.appendChild(document.createElement("br"));
