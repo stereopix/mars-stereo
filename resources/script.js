@@ -85,7 +85,7 @@ function thumb_clicked() {
 			if (viewer) {
 				try {
 					viewer.postMessage({'stereopix_action': 'list_clear'}, 'https://stereopix.net');
-					viewer.postMessage({'stereopix_action': 'list_add_url', 'url': canvas.toDataURL()}, 'https://stereopix.net');
+					viewer.postMessage({'stereopix_action': 'list_add_json', 'medium': { "url": canvas.toDataURL() }}, 'https://stereopix.net');
 					document.getElementById("stereopix_viewer").classList.remove("hidden");
 				} catch(DOMException) {
 					cbox.appendChild(canvas);
