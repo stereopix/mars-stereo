@@ -407,7 +407,7 @@ function perseverance_scrap(e, page, photos0) {
 	xhr.onerror = function() {
 		thumbs.textContent = "Error while loading.";
 	}
-	var url = new URL("https://mars.nasa.gov/rss/api/", document.location);
+	var url = new URL("/api/perseverance.json", document.location);
 	url.search = new URLSearchParams({
 		"feed": "raw_images",
 		"category": "mars2020",

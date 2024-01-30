@@ -39,6 +39,9 @@ async def forward(request, url):
       body = await res.read()
     )
 
+async def http_api_pereverance(request):
+  return await forward(request, 'https://mars.nasa.gov/rss/api/?'+request.query_string)
+
 async def http_api_curiosity(request):
   return await forward(request, 'https://mars.nasa.gov/api/v1/raw_image_items/?'+request.query_string)
 
@@ -60,6 +63,7 @@ async def start_server(host, port):
     app.add_routes([
       web.get('/', http_root_handler),
       web.get('/api/curiosity.json', http_api_curiosity),
+      web.get('/api/perseverance.json', http_api_pereverance),
       web.get('/img/curiosity/{path:.*}', http_img_curiosity),
       web.get('/img/perseverance/{path:.*}', http_img_perseverance),
       web.static('/', 'resources'),
